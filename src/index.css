@@ -1,0 +1,141 @@
+/* Global styles for the CollegeHub portal */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1a1a2e;
+  color: #f1f5f9;
+  line-height: 1.6;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #16213e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4361ee;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f37c9;
+}
+
+/* Toast notifications */
+.Toastify__toast {
+  background-color: #16213e !important;
+  color: #f1f5f9 !important;
+  border-radius: 8px !important;
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #4ade80 !important;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #f87171 !important;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #facc15 !important;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #4cc9f0 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: #4361ee;
+}
+
+.text-accent {
+  color: #4cc9f0;
+}
+
+.text-success {
+  color: #4ade80;
+}
+
+.text-warning {
+  color: #facc15;
+}
+
+.text-error {
+  color: #f87171;
+}
+
+.bg-dark {
+  background-color: #1a1a2e;
+}
+
+.bg-card {
+  background-color: #16213e;
+}
+
+.shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded {
+  border-radius: 8px;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #4361ee;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3f37c9;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #4361ee;
+  color: #4361ee;
+}
+
+.btn-outline:hover {
+  background-color: rgba(67, 97, 238, 0.1);
+}
