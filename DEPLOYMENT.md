@@ -28,7 +28,24 @@ This guide explains how to deploy the College Student Portal application to vari
 
 ## Frontend Deployment Options
 
-### Option 1: Netlify (Recommended for Frontend)
+### Option 1: GitHub Pages (Recommended)
+
+1. Update `vite.config.js`:
+   - Change the `base` path to match your repository name:
+   ```javascript
+   base: '/your-repository-name/',
+   ```
+
+2. Configure GitHub Pages:
+   - Go to your repository settings on GitHub
+   - Scroll down to the "Pages" section
+   - Under "Source", select "GitHub Actions"
+   - The site will automatically deploy on every push to the main branch
+
+3. Set environment variables (optional):
+   - If you have a custom backend, you can set the `VITE_API_URL` in the GitHub Actions workflow
+
+### Option 2: Netlify
 
 1. Go to https://netlify.com and sign up/sign in
 2. Click "New site from Git"
@@ -38,7 +55,7 @@ This guide explains how to deploy the College Student Portal application to vari
    - Publish directory: `dist`
 5. Click "Deploy site"
 
-### Option 2: Vercel
+### Option 3: Vercel
 
 1. Go to https://vercel.com and sign up/sign in
 2. Click "New Project"
@@ -49,44 +66,11 @@ This guide explains how to deploy the College Student Portal application to vari
    - Output directory: `dist`
 5. Click "Deploy"
 
-### Option 3: GitHub Pages
+## Backend Deployment
 
-1. Install the gh-pages package:
-   ```bash
-   npm install gh-pages --save-dev
-   ```
+The backend needs to be deployed separately since GitHub Pages only serves static files.
 
-2. Add these scripts to your package.json:
-   ```json
-   "scripts": {
-     "dev": "vite",
-     "build": "tsc && vite build",
-     "preview": "vite preview",
-     "predeploy": "npm run build",
-     "deploy": "gh-pages -d dist"
-   }
-   ```
-
-3. Add this to your vite.config.js (create if it doesn't exist):
-   ```javascript
-   import { defineConfig } from 'vite'
-   import react from '@vitejs/plugin-react'
-
-   // https://vitejs.dev/config/
-   export default defineConfig({
-     base: '/college-student-portal/',
-     plugins: [react()],
-   })
-   ```
-
-4. Deploy:
-   ```bash
-   npm run deploy
-   ```
-
-## Backend Deployment Options
-
-### Option 1: Render (Recommended for Backend)
+### Option 1: Render (Recommended)
 
 1. Go to https://render.com and sign up/sign in
 2. Click "New Web Service"
@@ -154,14 +138,17 @@ Once set up, any changes pushed to the main branch will automatically trigger a 
 
 ### Common Issues:
 
-1. **Build failures**: Check that all dependencies are correctly listed in package.json
-2. **Environment variables not set**: Make sure all required environment variables are configured in your hosting platform
-3. **CORS errors**: Ensure your backend is configured to accept requests from your frontend domain
-4. **Database connection issues**: Verify your MongoDB connection string and IP whitelist settings
+1. **Site not loading**: Check that the `base` path in `vite.config.js` matches your repository name
+2. **API calls failing**: Ensure your backend is deployed and the `VITE_API_URL` is correctly set
+3. **Build failures**: Check that all dependencies are correctly listed in package.json
+4. **Environment variables not set**: Make sure all required environment variables are configured in your hosting platform
+5. **CORS errors**: Ensure your backend is configured to accept requests from your frontend domain
+6. **Database connection issues**: Verify your MongoDB connection string and IP whitelist settings
 
 ### Checking Logs:
 
 Most hosting platforms provide access to application logs which can help diagnose issues:
+- GitHub Actions: Repository → Actions → Select workflow run
 - Netlify: Deploy settings → Functions → Logs
 - Vercel: Deployment → Functions → View Logs
 - Render: Dashboard → Your service → Logs
