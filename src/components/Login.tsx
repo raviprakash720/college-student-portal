@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
+import { authAPI } from '../utils/api';
 
 const LoginContainer = styled.div`
   max-width: 400px;
@@ -105,34 +106,21 @@ const Login: React.FC = () => {
     }
     
     try {
-      // Call the actual login API
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, role }),
-      });
+      // Call the actual login API using our utility
+      const data = await authAPI.login({ email, password, role });
       
-      const data = await response.json();
+      // Save token to localStorage
+      localStorage.setItem('token', data.token);
       
-      if (response.ok) {
-        // Save token to localStorage
-        localStorage.setItem('token', data.token);
-        
-        // Login using context
-        login(data.user);
-        
-        toast.success('Login successful!');
-        // Navigate to the intended destination or dashboard
-        const from = location.state?.from?.pathname || '/dashboard';
-        navigate(from, { replace: true });
-      } else {
-        toast.error(data.message || 'Invalid credentials');
-      }
-    } catch (error) {
-      toast.error('An error occurred during login. Make sure the backend server is running.');
-      console.error('Login error:', error);
+      // Login using context
+      login(data.user);
+      
+      toast.success('Login successful!');
+      // Navigate to the intended destination or dashboard
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
+    } catch (error: any) {
+      toast.error(error.message || 'Invalid credentials');
     }
   };
 

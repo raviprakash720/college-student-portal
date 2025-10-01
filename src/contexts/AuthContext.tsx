@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authAPI } from '../utils/api';
 
 // Define types
 interface User {
@@ -31,28 +32,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // In a real app, you would validate the token with the backend
-          // For now, we'll just check if a token exists and try to get user info
-          const response = await fetch('http://localhost:5000/api/users/profile', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          
-          if (response.ok) {
-            // For the test API, we'll use mock user data
-            // In a real app, you would use the response data
-            const userData = {
-              id: '1',
-              name: 'Test User',
-              email: 'test@example.com',
-              role: 'student'
-            };
-            setUser(userData);
-          } else {
-            // Token is invalid, remove it
-            localStorage.removeItem('token');
-          }
+          // Validate the token with the backend using our API utility
+          const userData = await authAPI.getProfile();
+          setUser(userData);
         } catch (error) {
           console.error('Error checking auth status:', error);
           // Remove invalid token

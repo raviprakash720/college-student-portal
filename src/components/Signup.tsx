@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
+import { authAPI } from '../utils/api';
 
 const SignupContainer = styled.div`
   max-width: 400px;
@@ -108,32 +109,19 @@ const Signup: React.FC = () => {
     }
     
     try {
-      // Call the actual register API
-      const response = await fetch('http://localhost:5000/api/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password, role }),
-      });
+      // Call the actual register API using our utility
+      const data = await authAPI.register({ name, email, password, role });
       
-      const data = await response.json();
+      // Save token to localStorage
+      localStorage.setItem('token', data.token);
       
-      if (response.ok) {
-        // Save token to localStorage
-        localStorage.setItem('token', data.token);
-        
-        // Login using context
-        login(data.user);
-        
-        toast.success('Account created successfully!');
-        navigate('/dashboard');
-      } else {
-        toast.error(data.message || 'Registration failed');
-      }
-    } catch (error) {
-      toast.error('An error occurred during registration. Make sure the backend server is running.');
-      console.error('Registration error:', error);
+      // Login using context
+      login(data.user);
+      
+      toast.success('Account created successfully!');
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast.error(error.message || 'Registration failed');
     }
   };
 
